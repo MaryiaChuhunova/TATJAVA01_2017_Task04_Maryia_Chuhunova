@@ -1,9 +1,5 @@
 package view;
 
-import bean.Release;
-import controller.command.ControllerException;
-import controller.command.SearchController;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -13,30 +9,18 @@ import java.util.Scanner;
 public class SearchMenu {
 
     Scanner sc = new Scanner(System.in);
-    String request = "";
+    String details = "";
+    String splitter = "_";
 
     /**
      * gets info for search and sends it to controller layer
      */
-    public void menu() {
+    public String getDetails() {
         System.out.println("Enter category for search (Book/Disk/Movie");
-        request += sc.nextLine() + "_";
+        details += sc.nextLine() + splitter;
         System.out.println("Enter tag for search");
-        request += sc.nextLine();
+        details += sc.nextLine();
 
-        SearchController sc = new SearchController();
-        try {
-            ArrayList<Release> resultOfSearch = sc.search(request);
-            if (resultOfSearch != null) {
-                for (Release release : resultOfSearch) {
-                    System.out.println(release.getCategory() + " " + release.getAuthor() + " "
-                            + release.getTitle() + " " + release.getReleaseDate());
-                }
-            } else {
-                System.out.println("Nothing found");
-            }
-        } catch (ControllerException cex) {
-            System.out.println(cex.getMessage());
-        }
+        return details;
     }
 }
