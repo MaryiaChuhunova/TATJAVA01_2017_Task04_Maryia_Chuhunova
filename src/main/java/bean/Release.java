@@ -42,5 +42,9 @@ public class Release implements Serializable {
     public String getReleaseDate() {
         return releaseDate;
     }
+    
+    public String toString() {
+        return (category + " " + author + " " + title + " " + releaseDate + "\n");
+    }
 
 }
