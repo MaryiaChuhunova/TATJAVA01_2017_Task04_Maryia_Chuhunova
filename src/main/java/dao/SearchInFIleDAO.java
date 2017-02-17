@@ -40,6 +40,17 @@ public class SearchInFIleDAO {
             resultsOfSearch = ResultIntoListParser.parseResultIntoList(result);
         } catch (SQLException e) {
             throw new DAOException("Troubles with connection to source of data", e);
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage()); //sorry, i know it's not a good idea
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage()); //sorry, i know it's not a good idea
+            }
         }
 
         return resultsOfSearch;
