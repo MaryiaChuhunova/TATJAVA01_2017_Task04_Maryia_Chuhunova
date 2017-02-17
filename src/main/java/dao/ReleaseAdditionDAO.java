@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 /**
  * realization of addition on dao layer
@@ -27,9 +29,10 @@ public class ReleaseAdditionDAO {
         Connection connection = pool.takeConnection();
 
         String query = "INSERT INTO releases(category, author, title, date) VALUES (?,?,?,?)";
+        PreparedStatement preparedStatement = null;
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, releaseDetails[0]);
             preparedStatement.setString(2, releaseDetails[1]);
             preparedStatement.setString(3, releaseDetails[2]);
@@ -38,6 +41,17 @@ public class ReleaseAdditionDAO {
             response = "Release was added successfully";
         } catch (SQLException sqle) {
             response = "Error during adding release";
+        } finally {
+            try {
+                preparedStatement.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage()); //sorry, i know it's not a good idea
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage()); //sorry, i know it's not a good idea
+            }
         }
 
         return response;
